@@ -11,7 +11,9 @@ class QueueNode {
   }
 
   enqueue(item) {
-    if (this.length === this.size) return false;
+    if (this.length === this.size || this.writeIndex >= this.size) {
+      return false;
+    }
     this.buffer[this.writeIndex++] = item;
     this.length++;
     return true;
@@ -21,6 +23,10 @@ class QueueNode {
     if (this.length === 0) return null;
     const item = this.buffer[this.readIndex++];
     this.length--;
+    if (this.length === 0) {
+      this.readIndex = 0;
+      this.writeIndex = 0;
+    }
     return item;
   }
 }
@@ -34,7 +40,7 @@ class UnrolledQueue {
   constructor(options = {}) {
     const { nodeSize } = options;
     if (nodeSize) this.#nodeSize = nodeSize;
-    const node = new QueueNode({ size: nodeSize });
+    const node = new QueueNode({ size: this.#nodeSize });
     this.#head = node;
     this.#tail = node;
   }
