@@ -1,78 +1,64 @@
 'use strict';
 
 class QueueNode {
-  #length = 0;
-
   constructor({ size }) {
+    this.length = 0;
     this.size = size;
-    this.buffer = new Array(size);
     this.readIndex = 0;
     this.writeIndex = 0;
+    this.buffer = new Array(size);
     this.next = null;
   }
 
-  get length() {
-    return this.#length;
-  }
-
-  isEmpty() {
-    return this.#length === 0;
-  }
-
-  isFull() {
-    return this.#length === this.size;
-  }
-
   enqueue(item) {
-    if (this.isFull()) return false;
+    if (this.length === this.size) return false;
     this.buffer[this.writeIndex++] = item;
-    this.#length++;
+    this.length++;
     return true;
   }
 
   dequeue() {
-    if (this.isEmpty()) return null;
+    if (this.length === 0) return null;
     const item = this.buffer[this.readIndex++];
-    this.#length--;
+    this.length--;
     return item;
   }
 }
 
 class UnrolledQueue {
   #length = 0;
+  #nodeSize = 2048;
+  #head = null;
+  #tail = null;
 
   constructor(options = {}) {
-    const { nodeSize = 2048 } = options;
+    const { nodeSize } = options;
+    if (nodeSize) this.#nodeSize = nodeSize;
     const node = new QueueNode({ size: nodeSize });
-    this.head = node;
-    this.tail = node;
-    this.nodeSize = nodeSize;
+    this.#head = node;
+    this.#tail = node;
   }
 
   get length() {
     return this.#length;
   }
 
-  isEmpty() {
-    return this.#length === 0;
-  }
-
   enqueue(item) {
-    if (!this.head.enqueue(item)) {
-      const node = new QueueNode({ size: this.nodeSize });
-      this.head.next = node;
-      this.head = node;
-      this.head.enqueue(item);
+    if (!this.#head.enqueue(item)) {
+      const node = new QueueNode({ size: this.#nodeSize });
+      this.#head.next = node;
+      this.#head = node;
+      this.#head.enqueue(item);
     }
     this.#length++;
   }
 
   dequeue() {
-    const item = this.tail.dequeue();
+    const item = this.#tail.dequeue();
     if (item !== null) {
       this.#length--;
-      if (this.tail.isEmpty() && this.tail.next) {
-        this.tail = this.tail.next;
+      if (this.#tail.length === 0 && this.#tail.next) {
+        this.#tail = this.#tail.next;
       }
     }
     return item;
@@ -87,7 +73,7 @@ for (let id = 0; id < 5; id++) {
   mq.enqueue({ id });
 }
 
-while (!mq.isEmpty()) {
+while (mq.length) {
   const task = mq.dequeue();
   console.log(`Processing ${task.id}`);
 }
@@ -96,7 +82,7 @@ for (let id = 100; id < 105; id++) {
   mq.enqueue({ id });
 }
 
-while (!mq.isEmpty()) {
+while (mq.length) {
   const task = mq.dequeue();
   console.log(`Processing ${task.id}`);
 }
