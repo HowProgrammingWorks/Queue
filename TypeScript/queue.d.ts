@@ -2,7 +2,7 @@ interface UnrolledQueueOptions {
   nodeSize?: number;
 }
 
-declare class UnrolledQueue<T = any> {
+declare class UnrolledQueue<T = unknown> {
   constructor(options?: UnrolledQueueOptions);
 
   readonly length: number;
