@@ -81,14 +81,16 @@ class UnrolledQueue {
 
   dequeue() {
     if (this.#length === 0) return null;
-    const item = this.#current.dequeue();
+    const current = this.#current;
+    const item = current.dequeue();
     this.#length--;
-    if (this.#current.length === 0 && this.#current !== this.#head) {
-      const node = this.#current;
-      this.#current = this.#current.next;
-      node.reset();
-      this.#tail.next = node;
-      this.#tail = node;
+    if (current.length === 0) {
+      current.reset();
+      if (current !== this.#head) {
+        this.#current = current.next;
+        this.#tail.next = current;
+        this.#tail = current;
+      }
     }
     return item;
   }
