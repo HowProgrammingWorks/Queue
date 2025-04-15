@@ -51,7 +51,6 @@ class UnrolledQueue {
       node.next = this.#createNode();
       node = node.next;
     }
-    node.next = first;
 
     this.#head = first;
     this.#current = first;
