@@ -45,10 +45,10 @@ class UnrolledQueue {
     if (nodeSize) this.#nodeSize = nodeSize;
     if (poolSize) this.#poolSize = poolSize;
 
-    let first = new QueueNode({ size: nodeSize });
+    const first = this.#createNode();
     let node = first;
-    for (let i = 1; i < poolSize; i++) {
-      node.next = new QueueNode({ size: nodeSize });
+    for (let i = 1; i < this.#poolSize; i++) {
+      node.next = this.#createNode();
       node = node.next;
     }
     node.next = first;
@@ -58,6 +58,10 @@ class UnrolledQueue {
     this.#tail = node;
   }
 
+  #createNode() {
+    return new QueueNode({ size: this.#nodeSize });
+  }
+
   get length() {
     return this.#length;
   }
@@ -65,7 +69,7 @@ class UnrolledQueue {
   enqueue(item) {
     if (!this.#head.enqueue(item)) {
       if (this.#head.next === this.#current) {
-        const node = new QueueNode(this.#nodeSize);
+        const node = this.#createNode();
         node.next = this.#head.next;
         this.#head.next = node;
         if (this.#tail === this.#head) this.#tail = node;
