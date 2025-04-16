@@ -104,7 +104,7 @@ class FixedQueue {
     this.head.enqueue(data);
   }
 
-  deque() {
+  dequeue() {
     const tail = this.tail;
     const next = tail.deque();
     if (tail.isEmpty() && tail.next !== null) {
@@ -116,24 +116,4 @@ class FixedQueue {
   }
 }
 
-// Usage
-
-const mq = new FixedQueue();
-
-for (let id = 0; id < 5; id++) {
-  mq.enqueue({ id });
-}
-
-while (!mq.isEmpty()) {
-  const task = mq.deque();
-  console.log(`Processing ${task.id}`);
-}
-
-for (let id = 100; id < 105; id++) {
-  mq.enqueue({ id });
-}
-
-while (!mq.isEmpty()) {
-  const task = mq.deque();
-  console.log(`Processing ${task.id}`);
-}
+module.exports = FixedQueue;

@@ -16,24 +16,4 @@ class Queue {
   }
 }
 
-// Usage
-
-const mq = new Queue();
-
-for (let id = 0; id < 5; id++) {
-  mq.enqueue({ id });
-}
-
-while (mq.length) {
-  const task = mq.dequeue();
-  console.log(`Processing ${task.id}`);
-}
-
-for (let id = 100; id < 105; id++) {
-  mq.enqueue({ id });
-}
-
-while (mq.length) {
-  const task = mq.dequeue();
-  console.log(`Processing ${task.id}`);
-}
+module.exports = Queue;
