@@ -69,9 +69,9 @@ class UnrolledQueue {
     if (!this.#current.enqueue(item)) {
       if (this.#current === this.#head) {
         const node = this.#createNode();
-        node.next = this.#head;
-        this.#head = node;
         this.#current.next = node;
+        this.#current = node;
+        this.#head = node;
       } else {
         this.#current = this.#current.next;
       }
@@ -82,15 +82,15 @@ class UnrolledQueue {
 
   dequeue() {
     if (this.#length === 0) return null;
-    const tail = this.#tail;
-    if (tail.length === 0) {
-      this.#tail = tail.next;
-      tail.reset();
-      this.#head.next = tail;
-      this.#head = tail;
-    }
-    const item = this.#tail.dequeue();
+    const node = this.#tail;
+    const item = node.dequeue();
     this.#length--;
+    if (node.length === 0 && node !== this.#current) {
+      this.#tail = node.next;
+      node.reset();
+      this.#head.next = node;
+      this.#head = node;
+    }
     return item;
   }
 }
