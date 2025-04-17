@@ -3,7 +3,7 @@
 const { execSync } = require('node:child_process');
 
 const implementations = [
-//['1-queue.js', 2048, 1],
+  //['1-queue.js', 2048, 1],
   ['2-naïve.js', 2048, 1],
   ['3-fixed.js', 2048, 1],
   ['4-unrolled.js', 2048, 1],
@@ -22,7 +22,8 @@ const main = () => {
   for (const [file, nodeSize, poolSize] of implementations) {
     const options = `${file} ${rounds} ${ops} ${nodeSize} ${poolSize}`;
     console.log(`Test: ${options}`);
-    const cmd = `node --expose-gc Performance/test.js ${options}`;
+    const switches = '--nouse-idle-notification --expose-gc';
+    const cmd = `node ${switches} Performance/test.js ${options}`;
     const out = execSync(cmd, { encoding: 'utf8' });
     results.push(out.replaceAll('\n', ','));
   }

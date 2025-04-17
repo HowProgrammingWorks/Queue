@@ -16,8 +16,8 @@ const test = (queue, ops) => {
     queue.enqueue({ id: i });
   }
   for (let i = 0; i < ops; i++) {
-    const { id } = queue.dequeue();
-    preventOpt += id;
+    const item = queue.dequeue();
+    if (item) preventOpt += item.id;
   }
 
   const t1 = performance.now();
@@ -40,8 +40,8 @@ const main = (file, rounds, ops, options) => {
       results.ram += ram;
     }
   }
-  results.cpu = (results.cpu / rounds).toFixed(2);
-  results.ram = (results.ram / rounds).toFixed(2);
+  results.cpu = parseFloat((results.cpu / rounds).toFixed(2));
+  results.ram = parseFloat((results.ram / rounds).toFixed(2));
   console.log(JSON.stringify({ name, ...results }));
 };
 
