@@ -5,7 +5,7 @@ class CircularQueueNode {
 
   constructor({ size }) {
     this.size = size;
-    this.buffer = new Array(size).fill(null);
+    this.buffer = new Array(size);
     this.readIndex = 0;
     this.writeIndex = 0;
     this.next = null;

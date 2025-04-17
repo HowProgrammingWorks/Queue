@@ -5,7 +5,7 @@ class QueueNode {
 
   constructor({ size }) {
     this.size = size;
-    this.buffer = new Array(size).fill(null);
+    this.buffer = new Array(size);
     this.reset();
   }
 
