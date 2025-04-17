@@ -5,7 +5,7 @@ class QueueNode {
 
   constructor({ size }) {
     this.size = size;
-    this.buffer = new Array(size).fill(null);
+    this.buffer = new Array(size);
     this.reset();
   }
 
@@ -52,9 +52,9 @@ class UnrolledQueue {
       node = node.next;
     }
 
-    this.#head = first;
+    this.#head = node;
     this.#current = first;
-    this.#tail = node;
+    this.#tail = first;
   }
 
   #createNode() {
@@ -66,32 +66,31 @@ class UnrolledQueue {
   }
 
   enqueue(item) {
-    if (!this.#head.enqueue(item)) {
-      if (this.#head.next === this.#current) {
+    if (!this.#current.enqueue(item)) {
+      if (this.#current === this.#head) {
         const node = this.#createNode();
-        node.next = this.#head.next;
-        this.#head.next = node;
-        if (this.#tail === this.#head) this.#tail = node;
+        node.next = this.#head;
+        this.#head = node;
+        this.#current.next = node;
+      } else {
+        this.#current = this.#current.next;
       }
-      this.#head = this.#head.next;
-      this.#head.enqueue(item);
+      this.#current.enqueue(item);
     }
     this.#length++;
   }
 
   dequeue() {
     if (this.#length === 0) return null;
-    const current = this.#current;
-    const item = current.dequeue();
-    this.#length--;
-    if (current.length === 0) {
-      current.reset();
-      if (current !== this.#head) {
-        this.#current = current.next;
-        this.#tail.next = current;
-        this.#tail = current;
-      }
+    const tail = this.#tail;
+    if (tail.length === 0) {
+      this.#tail = tail.next;
+      tail.reset();
+      this.#head.next = tail;
+      this.#head = tail;
     }
+    const item = this.#tail.dequeue();
+    this.#length--;
     return item;
   }
 }

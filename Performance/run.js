@@ -1,7 +1,6 @@
 'use strict';
 
 const { execSync } = require('node:child_process');
-const { performance } = require('node:perf_hooks');
 
 const implementations = [
 //['1-queue.js', 2048, 1],
@@ -10,7 +9,7 @@ const implementations = [
   ['4-unrolled.js', 2048, 1],
   ['5-spare.js', 2048, 1],
   ['6-pool.js', 1024, 2],
-//['7-current.js', 1024, 2],
+  ['7-current.js', 1024, 2],
   ['8-circular.js', 2048, 1],
   ['9-nodiv.js', 2048, 1],
 ];
