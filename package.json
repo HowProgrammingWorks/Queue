@@ -2,6 +2,7 @@
   "name": "patterns",
   "version": "1.0.0",
   "scripts": {
+    "perf": "node Performance/run.js",
     "lint": "eslint . && prettier -c \"**/*.js\"",
     "fix": "eslint . --fix && prettier --write \"**/*.js\"",
     "build": "tsc; prettier --write \"**/*.js\""
