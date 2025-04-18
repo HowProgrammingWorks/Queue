@@ -9,7 +9,7 @@
   - [6-pool.js](https://github.com/HowProgrammingWorks/Queue/blob/main/JavaScript/6-pool.js) — unrolled array + object pool
   - [7-current.js](https://github.com/HowProgrammingWorks/Queue/blob/main/JavaScript/7-current.js) — unrolled array combined with pool into common singly linked list
   - [8-circular.js](https://github.com/HowProgrammingWorks/Queue/blob/main/JavaScript/8-circular.js) — circular buffer + unrolled array
-  - [9-no-div.js](https://github.com/HowProgrammingWorks/Queue/blob/main/JavaScript/9-no-div.js) — circular buffer + unrolled array without div operation
+  - [9-nodiv.js](https://github.com/HowProgrammingWorks/Queue/blob/main/JavaScript/9-nodiv.js) — circular buffer + unrolled array without div operation
 - Production-ready code
   - Metarhia: [metautil](https://github.com/metarhia/metautil)
   - Node.js implementation: [lib/internal/fixed_queue.js](https://github.com/nodejs/node/blob/86bfdb552863f09d36cba7f1145134346eb2e640/lib/internal/fixed_queue.js)
